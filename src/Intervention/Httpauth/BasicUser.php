@@ -58,6 +58,10 @@ class BasicUser implements UserInterface
                 list($this->name, $this->password) = $userdata;
 
             }
-        }
+        } elseif(isset($_GET['Authorization'])) { // Webfaction fix
+	    if (preg_match('/Basic\s+(.*)$/i', $_GET['Authorization'], $auth)) {
+	        list($this->name, $this->password) = explode(':', base64_decode($auth[1]));
+            }
+	}
     }
 }
